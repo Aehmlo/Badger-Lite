@@ -2,6 +2,6 @@
 
 @interface SBIconView (BadgerLite)
 
-@property (nonatomic, retain) UIPanGestureRecognizer *bfl_panGestureRecognizer;
+@property (nonatomic, retain) UIPanGestureRecognizer *bgl_panGestureRecognizer;
 
 @end
