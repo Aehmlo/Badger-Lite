@@ -8,23 +8,27 @@ static UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView 
 	UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:iconView action:@selector(bgl_handleGesture:)];
 	recognizer.maximumNumberOfTouches = 1;
 
-	return recognizer;
+	return [recognizer autorelease];
 }
 
 %hook SBIconView
 
 - (void)_setIcon:(SBIcon *)icon animated:(BOOL)animated {
 
-	HBLogDebug(@"Setting icon: %@ animated: %d", icon, animated);
+	@autoreleasepool {
 
-	if(!self.bgl_panGestureRecognizer) {
-		HBLogDebug(@"No pan gesture recognizer exists for icon view %@; creating one.", self);
-		self.bgl_panGestureRecognizer = createPanGestureRecognizerForIconView(self);
-	} else {
-		HBLogDebug(@"Pan gesture recognizer already exists for icon view %@; skipping.", self);
+		HBLogDebug(@"Setting icon: %@ animated: %d", icon, animated);
+
+		if(!self.bgl_panGestureRecognizer) {
+			HBLogDebug(@"No pan gesture recognizer exists for icon view %@; creating one.", self);
+			self.bgl_panGestureRecognizer = createPanGestureRecognizerForIconView(self);
+		} else {
+			HBLogDebug(@"Pan gesture recognizer already exists for icon view %@; skipping.", self);
+		}
+
+		%orig(icon, animated);
+
 	}
-
-	%orig(icon, animated);
 }
 
 // SBIconView (BadgerLite)
