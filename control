@@ -1,0 +1,9 @@
+Package: com.bflatstudios.badger-lite
+Name: Badger--
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: A MobileSubstrate tweak!
+Maintainer: Aehmlo Lxaitn
+Author: Aehmlo Lxaitn <badgerlite@bflatstudios.com>
+Section: Tweaks
