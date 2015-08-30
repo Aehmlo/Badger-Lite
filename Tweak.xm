@@ -111,6 +111,7 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 		} else { // Here to stay
 			viewController.view.alpha = 1;
 			[viewController release]; // TODO: Do this when the thing's actually hidden (not now!)
+			viewController = nil; // TODO: Do this only when absolutely necessary!
 		}
 	}
 
