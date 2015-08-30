@@ -39,7 +39,7 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 			self.bgl_panGestureRecognizer = recognizer;
 
 		} else {
-			HBLogDebug(@"Pan gesture recognizer already exists for icon view %@ (icon %@); skipping.", self, icon);
+			HBLogDebug(@"Pan gesture recognizer already exists for icon view %@ (current icon %@); skipping.", self, icon);
 		}
 
 		%orig(icon, animated);
