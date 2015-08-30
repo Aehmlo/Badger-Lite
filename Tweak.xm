@@ -2,10 +2,13 @@
 #include <substrate.h>
 #include <stdlib.h>
 
+#import <SpringBoard/SBIconContentView.h>
+#import <SpringBoard/SBIconController.h>
 #import <SpringBoard/SBIconView.h>
 #import "SBIconView+BadgerLite.h"
 
 #include "BGLActivationMethod.h"
+#import "BGLNotificationViewController.h"
 #import "UIGestureRecognizerTarget.h"
 
 #define USING_LEFT_RECOGNIZER (activationMethod & BGLActivationMethodSwipeLeft)
@@ -16,6 +19,7 @@
 #define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
 static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
+BGLNotificationViewController *viewController;
 
 extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView *iconView);
 
@@ -41,39 +45,68 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 %new -(void)bgl_handleGesture:(UIPanGestureRecognizer *)recognizer {
 
-	if(!USING_HORIZONTAL_RECOGNIZER && !USING_VERTICAL_RECOGNIZER) {
-		HBLogWarn(@"Neither horizontal nor vertical recognizers appear to be enabled; ignoring pan gesture.");
-		return;
-	}
+	if(recognizer.state == UIGestureRecognizerStateBegan) {
 
-	CGPoint translationInView = [recognizer translationInView:self];
-	CGFloat effectiveTranslation;
+		viewController = [[BGLNotificationViewController alloc] init];
+		SBIconController *controller = [%c(SBIconController) sharedInstance];
+		SBIconContentView *contentView = controller.contentView;
+		UIView *view = viewController.view;
+		[contentView addSubview:view];
 
-	if(USING_LEFT_RECOGNIZER != USING_RIGHT_RECOGNIZER) { // Using exactly one horizontal direction
-		if((USING_LEFT_RECOGNIZER && translationInView.x > 0) || (USING_RIGHT_RECOGNIZER && translationInView.x < 0)) {
-			translationInView.x = 0;
+
+		[contentView addConstraints:@[
+			[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
+			[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
+			[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0],
+			[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:200]
+		]];
+
+
+	} else if(recognizer.state == UIGestureRecognizerStateChanged) {
+
+		if(!USING_HORIZONTAL_RECOGNIZER && !USING_VERTICAL_RECOGNIZER) {
+			HBLogWarn(@"Neither horizontal nor vertical recognizers appear to be enabled; ignoring pan gesture.");
+			return;
 		}
-	} else {
-		translationInView.x = fabs(translationInView.x);
-	}
-	if(USING_UP_RECOGNIZER != USING_DOWN_RECOGNIZER) { // Using exactly one vertical dimension
-		if((USING_UP_RECOGNIZER && translationInView.y > 0) || (USING_DOWN_RECOGNIZER && translationInView.y < 0)) {
-			translationInView.y = 0;
+
+		CGPoint translationInView = [recognizer translationInView:self];
+		CGFloat effectiveTranslation;
+
+		if(USING_LEFT_RECOGNIZER != USING_RIGHT_RECOGNIZER) { // Using exactly one horizontal direction
+			if((USING_LEFT_RECOGNIZER && translationInView.x > 0) || (USING_RIGHT_RECOGNIZER && translationInView.x < 0)) {
+				translationInView.x = 0;
+			}
+		} else {
+			translationInView.x = fabs(translationInView.x);
 		}
-	} else {
-		translationInView.y = fabs(translationInView.y);
+		if(USING_UP_RECOGNIZER != USING_DOWN_RECOGNIZER) { // Using exactly one vertical dimension
+			if((USING_UP_RECOGNIZER && translationInView.y > 0) || (USING_DOWN_RECOGNIZER && translationInView.y < 0)) {
+				translationInView.y = 0;
+			}
+		} else {
+			translationInView.y = fabs(translationInView.y);
+		}
+
+		if(USING_VERTICAL_RECOGNIZER && USING_HORIZONTAL_RECOGNIZER) {
+			effectiveTranslation = fmax(fabs(translationInView.x), fabs(translationInView.y));
+		} else {
+			effectiveTranslation = USING_HORIZONTAL_RECOGNIZER ? fabs(translationInView.x) : fabs(translationInView.y);
+		}
+
+		CGFloat alpha = effectiveTranslation / 80.0;
+		if(alpha > 1) alpha = 1; // goto fail;
+
+		viewController.view.alpha = alpha;
+
+	} else if(recognizer.state == UIGestureRecognizerStateEnded) {
+		if(viewController.view.alpha <= 0.6) { // Use the alpha so we don't redo the (expensive) calculations we've already done.
+			viewController.view.alpha = 0;
+			[viewController.view removeFromSuperview];
+			[viewController release];
+		} else { // Here to stay
+			viewController.view.alpha = 1;
+		}
 	}
-
-	if(USING_VERTICAL_RECOGNIZER && USING_HORIZONTAL_RECOGNIZER) {
-		effectiveTranslation = fmax(fabs(translationInView.x), fabs(translationInView.y));
-	} else {
-		effectiveTranslation = USING_HORIZONTAL_RECOGNIZER ? fabs(translationInView.x) : fabs(translationInView.y);
-	}
-
-	CGFloat alpha = effectiveTranslation / 80.0;
-	if(alpha > 1) alpha = 1; // goto fail;
-
-	HBLogDebug(@"Would now set alpha to %0.02f", alpha);
 
 }
 
