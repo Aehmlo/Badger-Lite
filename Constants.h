@@ -1,0 +1,1 @@
+NSString *const kBGLNotificationCellReuseIdentifier = @"com.bflatstudios.badger-lite/notificationCell";
