@@ -2,13 +2,29 @@
 
 @implementation BGLNotificationViewController
 
+extern "C" NSInteger blurStyle;
+
 - (void)viewDidLoad {
 
-	self.view.translatesAutoresizingMaskIntoConstraints = false;
+	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	self.view.alpha = 0;
 
-	_blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-	_blurView.translatesAutoresizingMaskIntoConstraints = false;
+	UIBlurEffectStyle style;
+
+	switch(blurStyle) {
+		case 2:
+			style = UIBlurEffectStyleLight;
+			break;
+		case 3:
+			style = UIBlurEffectStyleExtraLight;
+			break;
+		default:
+			style = UIBlurEffectStyleDark;
+			break;
+	}
+
+	_blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:style]];
+	_blurView.translatesAutoresizingMaskIntoConstraints = NO;
 	[self.view addSubview:_blurView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],

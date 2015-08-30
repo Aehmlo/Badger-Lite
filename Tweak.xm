@@ -21,6 +21,7 @@
 #define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
 static BOOL enabled;
+NSInteger blurStyle;
 static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
 static BGLNotificationViewController *viewController;
 
@@ -152,5 +153,6 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 	HBPreferences *preferences = [HBPreferences preferencesForIdentifier:@"com.bflatstudios.badger-lite"];
 
 	[preferences registerBool:&enabled default:YES forKey:@"Enable"];
+	[preferences registerInteger:&blurStyle default:1 forKey:@"BlurStyle"];
 
 }

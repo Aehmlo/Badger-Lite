@@ -18,6 +18,34 @@
 			<key>PostNotification</key>
 			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>1</integer>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>BlurStyle</string>
+			<key>label</key>
+			<string>Blur Type</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+			<key>validTitles</key>
+			<array>
+				<string>Dark</string>
+				<string>Light</string>
+				<string>Ultralight</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
+			</array>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+		</dict>
 	</array>
 	<key>title</key>
 	<string>Badger--</string>
