@@ -17,13 +17,13 @@ static UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView 
 
 	@autoreleasepool {
 
-		HBLogDebug(@"Setting icon: %@ animated: %d", icon, animated);
-
 		if(!self.bgl_panGestureRecognizer) {
-			HBLogDebug(@"No pan gesture recognizer exists for icon view %@; creating one.", self);
-			self.bgl_panGestureRecognizer = createPanGestureRecognizerForIconView(self);
+			UIPanGestureRecognizer *recognizer = createPanGestureRecognizerForIconView(self);
+			[self addGestureRecognizer:recognizer];
+			self.bgl_panGestureRecognizer = recognizer;
+
 		} else {
-			HBLogDebug(@"Pan gesture recognizer already exists for icon view %@; skipping.", self);
+			HBLogDebug(@"Pan gesture recognizer already exists for icon view %@ (icon %@); skipping.", self, icon);
 		}
 
 		%orig(icon, animated);
@@ -31,7 +31,61 @@ static UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView 
 	}
 }
 
+%new -(void)bgl_handleGesture:(UIPanGestureRecognizer *)recognizer {
+
+	if(!USING_HORIZONTAL_RECOGNIZER && !USING_VERTICAL_RECOGNIZER) {
+		HBLogWarn(@"Neither horizontal nor vertical recognizers appear to be enabled; ignoring pan gesture.");
+		return;
+	}
+
+	CGPoint translationInView = [recognizer translationInView:self];
+	CGFloat effectiveTranslation;
+
+	if(USING_LEFT_RECOGNIZER != USING_RIGHT_RECOGNIZER) { // Using exactly one horizontal direction
+		if((USING_LEFT_RECOGNIZER && translationInView.x > 0) || (USING_RIGHT_RECOGNIZER && translationInView.x < 0)) {
+			translationInView.x = 0;
+		}
+	} else {
+		translationInView.x = fabs(translationInView.x);
+	}
+	if(USING_UP_RECOGNIZER != USING_DOWN_RECOGNIZER) { // Using exactly one vertical dimension
+		if((USING_UP_RECOGNIZER && translationInView.y > 0) || (USING_DOWN_RECOGNIZER && translationInView.y < 0)) {
+			translationInView.y = 0;
+		}
+	} else {
+		translationInView.y = fabs(translationInView.y);
+	}
+
+	if(USING_VERTICAL_RECOGNIZER && USING_HORIZONTAL_RECOGNIZER) {
+		effectiveTranslation = fmax(fabs(translationInView.x), fabs(translationInView.y));
+	} else {
+		effectiveTranslation = USING_HORIZONTAL_RECOGNIZER ? fabs(translationInView.x) : fabs(translationInView.y);
+	}
+
+	CGFloat alpha = effectiveTranslation / 80.0;
+	if(alpha > 1) alpha = 1; // goto fail;
+
+	HBLogDebug(@"Would now set alpha to %0.02f", alpha);
+
+}
+
 // SBIconView (BadgerLite)
+
+%new - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+
+	BOOL shouldConflict = NO;
+
+	NSArray *targets = MSHookIvar<NSMutableArray *>(otherGestureRecognizer, "_targets");
+	for(UIGestureRecognizerTarget *_target in targets) {
+		id target = MSHookIvar<id>(_target, "_target"); // Wrapper class, of course.
+		if((USING_VERTICAL_RECOGNIZER && [target isKindOfClass:%c(SBSearchScrollView)]) || (USING_HORIZONTAL_RECOGNIZER && [target isKindOfClass:%c(SBIconScrollView)])) {
+			shouldConflict = YES;
+			break;
+		}
+	}
+
+	return !shouldConflict;
+}
 
 %new - (UIPanGestureRecognizer *)bgl_panGestureRecognizer {
 	return objc_getAssociatedObject(self, @selector(bgl_panGestureRecognizer));
