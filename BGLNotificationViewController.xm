@@ -5,6 +5,7 @@
 - (void)viewDidLoad {
 
 	self.view.translatesAutoresizingMaskIntoConstraints = false;
+	self.view.alpha = 0;
 
 	_blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
 	_blurView.translatesAutoresizingMaskIntoConstraints = false;
