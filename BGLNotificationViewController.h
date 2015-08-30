@@ -1,5 +1,6 @@
 @interface BGLNotificationViewController : UIViewController {
 	NSArray *_bundleIdentifiers;
+	UITableView *_tableView;
 	UIVisualEffectView *_blurView;
 }
 
