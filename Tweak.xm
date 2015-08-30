@@ -18,8 +18,9 @@
 #define USING_VERTICAL_RECOGNIZER (USING_UP_RECOGNIZER || USING_DOWN_RECOGNIZER)
 #define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
+static BOOL enabled = YES;
 static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
-BGLNotificationViewController *viewController;
+static BGLNotificationViewController *viewController;
 
 extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView *iconView);
 
@@ -44,6 +45,8 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 }
 
 %new -(void)bgl_handleGesture:(UIPanGestureRecognizer *)recognizer {
+
+	if(!enabled) return;
 
 	if(recognizer.state == UIGestureRecognizerStateBegan) {
 
