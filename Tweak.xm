@@ -120,6 +120,8 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 %new - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
 
+	if(!enabled) return YES;
+
 	BOOL shouldConflict = NO;
 
 	NSArray *targets = MSHookIvar<NSMutableArray *>(otherGestureRecognizer, "_targets");
