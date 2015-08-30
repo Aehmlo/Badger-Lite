@@ -1,4 +1,6 @@
 #import <objc/runtime.h>
+#include <substrate.h>
+#include <stdlib.h>
 
 #import <SpringBoard/SBIconView.h>
 #import "SBIconView+BadgerLite.h"
@@ -7,9 +9,16 @@ static UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView 
 
 	UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:iconView action:@selector(bgl_handleGesture:)];
 	recognizer.maximumNumberOfTouches = 1;
+#define USING_LEFT_RECOGNIZER (activationMethod & BGLActivationMethodSwipeLeft)
+#define USING_RIGHT_RECOGNIZER (activationMethod & BGLActivationMethodSwipeRight)
+#define USING_UP_RECOGNIZER (activationMethod & BGLActivationMethodSwipeUp)
+#define USING_DOWN_RECOGNIZER (activationMethod & BGLActivationMethodSwipeDown)
+#define USING_VERTICAL_RECOGNIZER (USING_UP_RECOGNIZER || USING_DOWN_RECOGNIZER)
+#define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
 	return [recognizer autorelease];
 }
+static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
 
 %hook SBIconView
 
