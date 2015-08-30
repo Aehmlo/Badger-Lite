@@ -46,6 +46,68 @@
 			<key>detail</key>
 			<string>PSListItemsController</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Activation Methods</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>SwipeUpEnabled</string>
+			<key>label</key>
+			<string>Swipe Up</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>SwipeDownEnabled</string>
+			<key>label</key>
+			<string>Swipe Down</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>SwipeLeftEnabled</string>
+			<key>label</key>
+			<string>Swipe Left</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>SwipeRightEnabled</string>
+			<key>label</key>
+			<string>Swipe Right</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
 	</array>
 	<key>title</key>
 	<string>Badger--</string>

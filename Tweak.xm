@@ -13,10 +13,10 @@
 #import "BGLNotificationViewController.h"
 #import "UIGestureRecognizerTarget.h"
 
-#define USING_LEFT_RECOGNIZER (activationMethod & BGLActivationMethodSwipeLeft)
-#define USING_RIGHT_RECOGNIZER (activationMethod & BGLActivationMethodSwipeRight)
-#define USING_UP_RECOGNIZER (activationMethod & BGLActivationMethodSwipeUp)
-#define USING_DOWN_RECOGNIZER (activationMethod & BGLActivationMethodSwipeDown)
+#define USING_LEFT_RECOGNIZER ((activationMethod & BGLActivationMethodSwipeLeft) != 0)
+#define USING_RIGHT_RECOGNIZER ((activationMethod & BGLActivationMethodSwipeRight) != 0)
+#define USING_UP_RECOGNIZER ((activationMethod & BGLActivationMethodSwipeUp) != 0)
+#define USING_DOWN_RECOGNIZER ((activationMethod & BGLActivationMethodSwipeDown) != 0)
 #define USING_VERTICAL_RECOGNIZER (USING_UP_RECOGNIZER || USING_DOWN_RECOGNIZER)
 #define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
@@ -154,5 +154,16 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 	[preferences registerBool:&enabled default:YES forKey:@"Enable"];
 	[preferences registerInteger:&blurStyle default:1 forKey:@"BlurStyle"];
+
+	void (^changeBlock)(NSString *, id) = ^(NSString *name, id value) {
+		activationMethod = ([preferences boolForKey:@"SwipeUpEnabled"] ? BGLActivationMethodSwipeUp : 0) | ([preferences boolForKey:@"SwipeDownEnabled"] ? BGLActivationMethodSwipeDown : 0) | ([preferences boolForKey:@"SwipeLeftEnabled"] ? BGLActivationMethodSwipeLeft : 0) | ([preferences boolForKey:@"SwipeRightEnabled"] ? BGLActivationMethodSwipeRight : 0);
+	};
+
+	[preferences registerPreferenceChangeBlock:changeBlock forKey:@"SwipeUpEnabled"];
+	[preferences registerPreferenceChangeBlock:changeBlock forKey:@"SwipeDownEnabled"];
+	[preferences registerPreferenceChangeBlock:changeBlock forKey:@"SwipeLeftEnabled"];
+	[preferences registerPreferenceChangeBlock:changeBlock forKey:@"SwipeRightEnabled"];
+
+	changeBlock(nil, nil);
 
 }
