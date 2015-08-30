@@ -5,6 +5,7 @@ BadgerLite_FILES = BGLRootListController.m
 BadgerLite_INSTALL_PATH = /Library/PreferenceBundles
 BadgerLite_FRAMEWORKS = UIKit
 BadgerLite_PRIVATE_FRAMEWORKS = Preferences
+BadgerLite_LIBRARIES = cepheiprefs
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 
