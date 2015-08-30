@@ -4,6 +4,8 @@
 
 #import <Cephei/HBPreferences.h>
 
+#import <SpringBoard/SBApplication.h>
+#import <SpringBoard/SBApplicationIcon.h>
 #import <SpringBoard/SBIconContentView.h>
 #import <SpringBoard/SBIconController.h>
 #import <SpringBoard/SBIconView.h>
@@ -53,7 +55,7 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 	if(recognizer.state == UIGestureRecognizerStateBegan) {
 
-		viewController = [[BGLNotificationViewController alloc] init];
+		viewController = [[BGLNotificationViewController alloc] initWithBundleIdentifier:((SBApplicationIcon *)self.icon).application.bundleIdentifier];
 		SBIconController *controller = [%c(SBIconController) sharedInstance];
 		SBIconContentView *contentView = controller.contentView;
 		UIView *view = viewController.view;
@@ -136,6 +138,7 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 	}
 
 	return !shouldConflict;
+
 }
 
 %new - (UIPanGestureRecognizer *)bgl_panGestureRecognizer {

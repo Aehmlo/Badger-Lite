@@ -4,6 +4,20 @@
 
 extern "C" NSInteger blurStyle;
 
+- (instancetype)initWithBundleIdentifiers:(NSArray *)bundleIDs {
+
+	if((self = [super init])) {
+		_bundleIdentifiers = [bundleIDs retain];
+	}
+
+	return self;
+
+}
+
+- (instancetype)initWithBundleIdentifier:(NSString *)bundleID {
+	return [self initWithBundleIdentifiers:@[bundleID]];
+}
+
 - (void)viewDidLoad {
 
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -34,6 +48,11 @@ extern "C" NSInteger blurStyle;
 	]];
 	[_blurView release];
 
+}
+
+- (void)dealloc {
+	[_bundleIdentifiers release];
+	[super dealloc];
 }
 
 @end
