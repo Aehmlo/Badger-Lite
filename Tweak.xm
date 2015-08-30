@@ -2,6 +2,8 @@
 #include <substrate.h>
 #include <stdlib.h>
 
+#import <Cephei/HBPreferences.h>
+
 #import <SpringBoard/SBIconContentView.h>
 #import <SpringBoard/SBIconController.h>
 #import <SpringBoard/SBIconView.h>
@@ -18,7 +20,7 @@
 #define USING_VERTICAL_RECOGNIZER (USING_UP_RECOGNIZER || USING_DOWN_RECOGNIZER)
 #define USING_HORIZONTAL_RECOGNIZER (USING_LEFT_RECOGNIZER || USING_RIGHT_RECOGNIZER)
 
-static BOOL enabled = YES;
+static BOOL enabled;
 static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
 static BGLNotificationViewController *viewController;
 
@@ -141,3 +143,11 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 }
 
 %end
+
+%ctor {
+
+	HBPreferences *preferences = [HBPreferences preferencesForIdentifier:@"com.bflatstudios.badger-lite"];
+
+	[preferences registerBool:&enabled default:YES forKey:@"Enable"];
+
+}
