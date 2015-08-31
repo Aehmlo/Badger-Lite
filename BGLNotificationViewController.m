@@ -1,5 +1,4 @@
 #import "BGLNotificationViewController.h"
-#import "BGLNotificationTableViewDataSource.h"
 
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 
@@ -56,8 +55,10 @@ extern NSInteger blurStyle;
 	_tableView.tableFooterView = [[[UIView alloc] init] autorelease];
 	_tableView.translatesAutoresizingMaskIntoConstraints = NO;
 	[_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBGLNotificationCellReuseIdentifier];
-	_tableView.dataSource = [[[BGLNotificationTableViewDataSource alloc] initWithBundleIdentifiers:_bundleIdentifiers] autorelease];
-	[_blurView addSubview:_tableView];
+	_dataSource = [[BGLNotificationTableViewDataSource alloc] initWithBundleIdentifiers:_bundleIdentifiers];
+	_tableView.dataSource = _dataSource;
+	_tableView.delegate = _dataSource;
+	[self.view addSubview:_tableView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
 		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0],
@@ -70,6 +71,7 @@ extern NSInteger blurStyle;
 
 - (void)dealloc {
 	[_bundleIdentifiers release];
+	[_dataSource release];
 	[super dealloc];
 }
 

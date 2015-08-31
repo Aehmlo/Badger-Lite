@@ -1,4 +1,4 @@
-@interface BGLNotificationTableViewDataSource : NSObject <UITableViewDataSource> {
+@interface BGLNotificationTableViewDataSource : NSObject <UITableViewDataSource, UITableViewDelegate> {
 	NSArray *_bundleIdentifiers;
 	NSArray *_cachedBulletins;
 }
