@@ -22,7 +22,7 @@ extern NSInteger blurStyle;
 
 - (void)viewDidLoad {
 
-	UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_hideAndReleaseAnimated)];
+	UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_animateHideAndReleaseIfApplicable:)];
 	[self.view addGestureRecognizer:recognizer];
 	[recognizer release];
 
@@ -84,8 +84,11 @@ extern NSInteger blurStyle;
 	}];
 }
 
-- (void)_hideAndReleaseAnimated {
-	[self hideAndRelease:YES];
+- (void)_animateHideAndReleaseIfApplicable:(UITapGestureRecognizer *)recognizer {
+	if(recognizer.state != UIGestureRecognizerStateEnded) return; // goto fail;
+	if([[self.view hitTest:[recognizer locationInView:self.view] withEvent:nil] isEqual:self.view]) {
+		[self hideAndRelease:YES];
+	}
 }
 
 - (void)dealloc {
