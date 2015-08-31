@@ -5,7 +5,7 @@ extern NSString *const kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationViewController
 
-extern "C" NSInteger blurStyle;
+extern NSInteger blurStyle;
 
 - (instancetype)initWithBundleIdentifiers:(NSArray *)bundleIDs {
 
