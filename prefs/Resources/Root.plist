@@ -44,7 +44,7 @@
 				<integer>3</integer>
 			</array>
 			<key>detail</key>
-			<string>PSListItemsController</string>
+			<string>HBListItemsController</string>
 		</dict>
 		<dict>
 			<key>cell</key>
