@@ -22,6 +22,10 @@ extern NSInteger blurStyle;
 
 - (void)viewDidLoad {
 
+	UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_hideAndReleaseAnimated)];
+	[self.view addGestureRecognizer:recognizer];
+	[recognizer release];
+
 	self.view.translatesAutoresizingMaskIntoConstraints = NO;
 	self.view.alpha = 0;
 
@@ -67,6 +71,21 @@ extern NSInteger blurStyle;
 	]];
 	[_tableView release];
 
+}
+
+- (void)hideAndRelease:(BOOL)animated {
+	[UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
+		self.view.alpha = 0;
+	} completion:^(BOOL complete) {
+		if(complete) {
+			[self.view removeFromSuperview];
+			[self release];
+		}
+	}];
+}
+
+- (void)_hideAndReleaseAnimated {
+	[self hideAndRelease:YES];
 }
 
 - (void)dealloc {

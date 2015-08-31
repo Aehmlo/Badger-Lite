@@ -9,6 +9,7 @@
 
 - (instancetype)initWithBundleIdentifier:(NSString *)bundleID;
 - (instancetype)initWithBundleIdentifiers:(NSArray *)bundleIDs;
+- (void)hideAndRelease:(BOOL)animated;
 
 
 @end

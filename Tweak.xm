@@ -109,13 +109,11 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 	} else if(recognizer.state == UIGestureRecognizerStateEnded) {
 		if(viewController.view.alpha <= 0.6) { // Use the alpha so we don't redo the (expensive) calculations we've already done.
-			viewController.view.alpha = 0;
-			[viewController.view removeFromSuperview];
-			[viewController release];
+			[viewController hideAndRelease:YES];
 		} else { // Here to stay
 			viewController.view.alpha = 1;
-			[viewController release]; // TODO: Do this when the thing's actually hidden (not now!)
-			viewController = nil; // TODO: Do this only when absolutely necessary!
+			// [viewController release]; // TODO: Do this when the thing's actually hidden (not now!)
+			// viewController = nil; // TODO: Do this only when absolutely necessary!
 		}
 	}
 
