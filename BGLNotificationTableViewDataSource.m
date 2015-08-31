@@ -1,5 +1,6 @@
 #import "BGLNotificationTableViewDataSource.h"
-#import "Constants.h"
+
+extern NSString *const kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationTableViewDataSource
 
