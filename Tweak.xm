@@ -6,6 +6,7 @@
 
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationIcon.h>
+#import <SpringBoard/SBBulletinViewController.h>
 #import <SpringBoard/SBIconContentView.h>
 #import <SpringBoard/SBIconController.h>
 #import <SpringBoard/SBIconView.h>
@@ -147,6 +148,21 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 %new - (void)setBgl_panGestureRecognizer:(UIPanGestureRecognizer *)gestureRecognizer {
 	objc_setAssociatedObject(self, @selector(bgl_panGestureRecognizer), gestureRecognizer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+%end
+
+SBBulletinViewController *bulletinViewController;
+
+%hook SBBulletinViewController
+
+- (id)initWithNibName:(NSString *)nibName bundle:(NSString *)bundle { // I really should make Logos understand instancetype or something
+	self = %orig(nibName, bundle);
+	if (self && ![self isKindOfClass:%c(SBWidgetHandlingBulletinViewController)]) { // Turns out SBWidgetHandlingBulletinViewController isn't what we want. Reminds me of the original version of Badger...but you don't have that source code, do you, dear reader?
+		// TODO: Find a better way to do this.
+		bulletinViewController = self;
+	}
+	return self;
 }
 
 %end

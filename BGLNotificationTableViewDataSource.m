@@ -2,6 +2,9 @@
 
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 
+extern NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
+extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
+
 @implementation BGLNotificationTableViewDataSource
 
 - (instancetype)initWithBundleIdentifiers:(NSArray *)bundleIDs {
@@ -12,6 +15,13 @@ extern NSString *const kBGLNotificationCellReuseIdentifier;
 
 	return self;
 
+}
+
+- (void)updateCachedBulletins {
+	if(_cachedBulletins) {
+		[_cachedBulletins release];
+	}
+	_cachedBulletins = [notificationsForBundleIdentifiers(_bundleIdentifiers) retain];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -25,11 +35,12 @@ extern NSString *const kBGLNotificationCellReuseIdentifier;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 0;
+	return [_cachedBulletins count];
 }
 
 - (void)dealloc {
 	[_bundleIdentifiers release];
+	[_cachedBulletins release];
 	[super dealloc];
 }
 
