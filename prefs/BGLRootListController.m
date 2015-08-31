@@ -7,7 +7,7 @@
 }
 
 + (UIColor *)hb_tintColor {
-	return [UIColor blueColor];
+	return [UIColor colorWithRed:0 green:164.f/255.f blue:194.f/255.f alpha:1];
 }
 
 @end
