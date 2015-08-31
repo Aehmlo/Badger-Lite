@@ -2,12 +2,12 @@
 
 @implementation BGLRootListController
 
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
-	}
++ (NSString *)hb_specifierPlist {
+	return @"Root";
+}
 
-	return _specifiers;
++ (UIColor *)hb_tintColor {
+	return [UIColor blueColor];
 }
 
 @end
