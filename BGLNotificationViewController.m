@@ -1,5 +1,7 @@
 #import "BGLNotificationViewController.h"
 
+#import "BGLNotificationTableViewCell.h"
+
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationViewController
@@ -58,7 +60,7 @@ extern NSInteger blurStyle;
 	_tableView.backgroundColor = [UIColor clearColor];
 	_tableView.tableFooterView = [[[UIView alloc] init] autorelease];
 	_tableView.translatesAutoresizingMaskIntoConstraints = NO;
-	[_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBGLNotificationCellReuseIdentifier];
+	[_tableView registerClass:[BGLNotificationTableViewCell class] forCellReuseIdentifier:kBGLNotificationCellReuseIdentifier];
 	_dataSource = [[BGLNotificationTableViewDataSource alloc] initWithBundleIdentifiers:_bundleIdentifiers];
 	_tableView.dataSource = _dataSource;
 	_tableView.delegate = _dataSource;

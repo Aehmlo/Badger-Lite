@@ -1,0 +1,3 @@
+@interface BGLNotificationTableViewCell : UITableViewCell
+
+@end
