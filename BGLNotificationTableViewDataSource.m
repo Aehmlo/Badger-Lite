@@ -15,11 +15,13 @@ extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 		_bundleIdentifiers = [bundleIDs retain];
 	}
 
+	[self _updateCachedBulletins];
+
 	return self;
 
 }
 
-- (void)updateCachedBulletins {
+- (void)_updateCachedBulletins {
 	if(_cachedBulletins) {
 		[_cachedBulletins release];
 	}
