@@ -7,6 +7,7 @@
 #import <SpringBoard/SBApplicationIcon.h>
 #import <SpringBoard/SBFolder.h>
 #import <SpringBoard/SBFolderIconView.h>
+#import <SpringBoard/SBIcon.h>
 #import <SpringBoard/SBIconView.h>
 
 extern "C" NSString *const kBGLNotificationCellReuseIdentifier;
@@ -26,8 +27,12 @@ extern NSInteger blurStyle;
 				SBFolder *folder = ((SBFolderIconView *)iconView).folder;
 				NSArray *icons = folder.allIcons;
 				NSMutableArray *ids = [NSMutableArray arrayWithCapacity:icons.count];
-				for(SBApplicationIcon *icon in icons) {
-					if(icon.application.bundleIdentifier) [ids addObject:icon.application.bundleIdentifier]; // Thank goodness for safe nil, right?
+				for(SBApplicationIcon *icon in icons) { // May not actually be an app icon.
+					SBApplication *app = icon.application;
+					NSString *bundleID = app.bundleIdentifier;
+					if(bundleID) {
+						[ids addObject:bundleID]; // Thank goodness for safe nil, right?
+					}
 				}
 				_bundleIdentifiers = ids;
 			} else {
@@ -116,7 +121,6 @@ extern NSInteger blurStyle;
 }
 
 - (void)dealloc {
-	[_bundleIdentifiers release];
 	[_dataSource release];
 	[super dealloc];
 }
