@@ -1,6 +1,10 @@
 #import "BGLNotificationTableViewDataSource.h"
 
+#import <CoreFoundation/CoreFoundation.h>
+
 #import <BulletinBoard/BBBulletin.h>
+
+#define MESSAGE_FONT [UIFont systemFontOfSize:16]
 
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 
@@ -29,9 +33,10 @@ extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	// BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	HBLogDebug(@"Returning 44 for cell height");
-	return 44;
+	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
+	return [bulletin.message boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX) options:0 attributes:@{
+		NSFontAttributeName: MESSAGE_FONT
+	} context:nil].size.height + 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
