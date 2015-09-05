@@ -5,7 +5,8 @@
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
-// #import <SpringBoard/SBFolderIcon.h>
+#import <SpringBoard/SBFolder.h>
+#import <SpringBoard/SBFolderIconView.h>
 #import <SpringBoard/SBIconView.h>
 
 extern "C" NSString *const kBGLNotificationCellReuseIdentifier;
@@ -19,11 +20,19 @@ extern NSInteger blurStyle;
 	if((self = [super init])) {
 		if(iconView) {
 			_iconView = iconView;
-			if([iconView isKindOfClass:%c(SBApplicationIcon)]) {
+			if([iconView isKindOfClass:%c(SBApplicationIconView)]) {
 				_bundleIdentifiers = @[((SBApplicationIcon *)iconView.icon).application.bundleIdentifier];
-			} else if([iconView isKindOfClass:%c(SBFolderIcon)]) {
-				_bundleIdentifiers = @[@"com.apple.MobileSMS"];
-				// Handle folder icon swipe
+			} else if([iconView isKindOfClass:%c(SBFolderIconView)]) {
+				SBFolder *folder = ((SBFolderIconView *)iconView).folder;
+				NSArray *icons = folder.allIcons;
+				NSMutableArray *ids = [NSMutableArray arrayWithCapacity:icons.count];
+				for(SBApplicationIcon *icon in icons) {
+					if(icon.application.bundleIdentifier) [ids addObject:icon.application.bundleIdentifier]; // Thank goodness for safe nil, right?
+				}
+				_bundleIdentifiers = ids;
+			} else {
+				_bundleIdentifiers = @[@"com.bflatstudios.badger-lite.error"];
+				HBLogError(@"Badger--: Encountered unknown icon view class %@; serving com.bflatstudios.badger-lite.error instead.", [iconView class]);
 			}
 		} else { // No icon view; default to showing the consolidated view.
 			_bundleIdentifiers = [%c(SBApplicationController) sharedInstance].allBundleIdentifiers;
