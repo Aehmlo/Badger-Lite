@@ -11,6 +11,7 @@ extern UIFont *bgl_messageFont(void);
 		self.textLabel.textColor = [UIColor whiteColor];
 		self.textLabel.font = bgl_messageFont();
 		self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+		self.textLabel.numberOfLines = 0;
 	}
 
 	return self;
