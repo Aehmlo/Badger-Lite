@@ -34,7 +34,7 @@ extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	return [bulletin.message boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX) options:0 attributes:@{
+	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width, CGFLOAT_MAX) options:0 attributes:@{
 		NSFontAttributeName: MESSAGE_FONT
 	} context:nil].size.height + 20;
 }
