@@ -4,9 +4,9 @@
 
 #import <BulletinBoard/BBBulletin.h>
 
-#define MESSAGE_FONT [UIFont systemFontOfSize:16]
-
 extern NSString *const kBGLNotificationCellReuseIdentifier;
+extern UIFont *bgl_titleFont(void);
+extern UIFont *bgl_messageFont(void);
 
 extern NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
 extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
@@ -35,7 +35,7 @@ extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
 	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width, CGFLOAT_MAX) options:0 attributes:@{
-		NSFontAttributeName: MESSAGE_FONT
+		NSFontAttributeName: bgl_messageFont()
 	} context:nil].size.height + 20;
 }
 
