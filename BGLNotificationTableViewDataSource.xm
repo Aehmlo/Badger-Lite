@@ -8,12 +8,13 @@
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 
-extern NSString *const kBGLNotificationCellReuseIdentifier;
-extern UIFont *bgl_titleFont(void);
-extern UIFont *bgl_messageFont(void);
-
-extern NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
-extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
+extern "C" {
+	UIFont *bgl_titleFont(void);
+	UIFont *bgl_messageFont(void);
+	NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
+	NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
+}
+extern NSString *kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationTableViewDataSource
 
