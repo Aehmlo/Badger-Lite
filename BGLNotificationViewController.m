@@ -64,6 +64,7 @@ extern NSInteger blurStyle;
 	_dataSource = [[BGLNotificationTableViewDataSource alloc] initWithBundleIdentifiers:_bundleIdentifiers];
 	_tableView.dataSource = _dataSource;
 	_tableView.delegate = _dataSource;
+	_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
