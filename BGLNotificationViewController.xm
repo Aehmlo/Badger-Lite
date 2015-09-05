@@ -3,10 +3,12 @@
 #import "BGLNotificationTableViewCell.h"
 
 #import <SpringBoard/SBApplication.h>
+#import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
+// #import <SpringBoard/SBFolderIcon.h>
 #import <SpringBoard/SBIconView.h>
 
-extern NSString *const kBGLNotificationCellReuseIdentifier;
+extern "C" NSString *const kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationViewController
 
@@ -15,8 +17,17 @@ extern NSInteger blurStyle;
 - (instancetype)initWithIconView:(SBIconView *)iconView {
 
 	if((self = [super init])) {
-		_iconView = iconView;
-		_bundleIdentifiers = @[((SBApplicationIcon *)iconView.icon).application.bundleIdentifier];
+		if(iconView) {
+			_iconView = iconView;
+			if([iconView isKindOfClass:%c(SBApplicationIcon)]) {
+				_bundleIdentifiers = @[((SBApplicationIcon *)iconView.icon).application.bundleIdentifier];
+			} else if([iconView isKindOfClass:%c(SBFolderIcon)]) {
+				_bundleIdentifiers = @[@"com.apple.MobileSMS"];
+				// Handle folder icon swipe
+			}
+		} else { // No icon view; default to showing the consolidated view.
+			_bundleIdentifiers = [%c(SBApplicationController) sharedInstance].allBundleIdentifiers;
+		}
 	}
 
 	return self;

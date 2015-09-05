@@ -173,7 +173,7 @@ SBBulletinViewController *bulletinViewController;
 	[preferences registerBool:&enabled default:YES forKey:@"Enable"];
 	[preferences registerInteger:&blurStyle default:1 forKey:@"BlurStyle"];
 
-	void (^changeBlock)(NSString *, id) = ^(NSString *name, id value) {
+	void (^changeBlock)(NSString *, id) = ^(NSString *name, id value) { // <3 fuckingblocksyntax.com
 		activationMethod = ([preferences boolForKey:@"SwipeUpEnabled"] ? BGLActivationMethodSwipeUp : 0) | ([preferences boolForKey:@"SwipeDownEnabled"] ? BGLActivationMethodSwipeDown : 0) | ([preferences boolForKey:@"SwipeLeftEnabled"] ? BGLActivationMethodSwipeLeft : 0) | ([preferences boolForKey:@"SwipeRightEnabled"] ? BGLActivationMethodSwipeRight : 0);
 	};
 
