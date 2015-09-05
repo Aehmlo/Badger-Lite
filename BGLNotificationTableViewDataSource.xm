@@ -44,7 +44,7 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
 		NSFontAttributeName: bgl_messageFont(),
 		NSParagraphStyleAttributeName: style
-	} context:nil].size.height + 30 + bgl_titleFont().lineHeight;
+	} context:nil].size.height + 25 + bgl_titleFont().lineHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
