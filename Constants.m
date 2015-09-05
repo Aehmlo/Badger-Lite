@@ -7,3 +7,4 @@ UIFont *bgl_messageFont(void) {
 UIFont *bgl_titleFont(void) {
 	return [UIFont systemFontOfSize:24];
 }
+

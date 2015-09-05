@@ -10,6 +10,7 @@ extern UIFont *bgl_messageFont(void);
 	if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
 		self.textLabel.textColor = [UIColor whiteColor];
 		self.textLabel.font = bgl_messageFont();
+		self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
 	}
 
 	return self;

@@ -33,9 +33,12 @@ extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSMutableParagraphStyle *style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	style.lineBreakMode = NSLineBreakByWordWrapping;
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width, CGFLOAT_MAX) options:0 attributes:@{
-		NSFontAttributeName: bgl_messageFont()
+	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
+		NSFontAttributeName: bgl_messageFont(),
+		NSParagraphStyleAttributeName: style
 	} context:nil].size.height + 20;
 }
 
