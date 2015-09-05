@@ -2,24 +2,25 @@
 
 #import "BGLNotificationTableViewCell.h"
 
+#import <SpringBoard/SBApplication.h>
+#import <SpringBoard/SBApplicationIcon.h>
+#import <SpringBoard/SBIconView.h>
+
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationViewController
 
 extern NSInteger blurStyle;
 
-- (instancetype)initWithBundleIdentifiers:(NSArray *)bundleIDs {
+- (instancetype)initWithIconView:(SBIconView *)iconView {
 
 	if((self = [super init])) {
-		_bundleIdentifiers = [bundleIDs retain];
+		_iconView = iconView;
+		_bundleIdentifiers = @[((SBApplicationIcon *)iconView.icon).application.bundleIdentifier];
 	}
 
 	return self;
 
-}
-
-- (instancetype)initWithBundleIdentifier:(NSString *)bundleID {
-	return [self initWithBundleIdentifiers:@[bundleID]];
 }
 
 - (void)viewDidLoad {
