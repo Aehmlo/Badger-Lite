@@ -56,9 +56,6 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 
 	if(recognizer.state == UIGestureRecognizerStateBegan) {
 
-		CGPoint convertedOrigin = [[[UIApplication sharedApplication] keyWindow] convertPoint:self.frame.origin toWindow:nil];
-		HBLogDebug(@"Absolute origin: (%0.02f, %0.02f)", convertedOrigin.x, convertedOrigin.y);
-
 		viewController = [[BGLNotificationViewController alloc] initWithIconView:self];
 		SBIconController *controller = [%c(SBIconController) sharedInstance];
 		SBIconContentView *contentView = controller.contentView;
