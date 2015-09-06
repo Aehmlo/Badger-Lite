@@ -8,12 +8,10 @@
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 
-extern "C" {
-	UIFont *bgl_titleFont(void);
-	UIFont *bgl_messageFont(void);
-	NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
-	NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
-}
+extern UIFont *bgl_titleFont(void);
+extern UIFont *bgl_messageFont(void);
+extern NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
+extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 extern NSString *kBGLNotificationCellReuseIdentifier;
 
 @implementation BGLNotificationTableViewDataSource
@@ -51,14 +49,7 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 	BGLNotificationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBGLNotificationCellReuseIdentifier forIndexPath:indexPath];
 	cell.backgroundColor = [UIColor clearColor];
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	cell.messageLabel.text = bulletin.message;
-	NSString *text = bulletin.title ?: bulletin.subtitle;
-	if(!text) {
-		SBApplication *application = [((SBApplicationController *)[%c(SBApplicationController) sharedInstance]) applicationWithBundleIdentifier:bulletin.section];
-		text = application.displayName;
-	}
-	cell.titleLabel.text = text;
-	HBLogDebug(@"Cell: %@, label: %@", cell, cell.textLabel);
+	cell.bulletin = bulletin;
 	return cell;
 }
 
