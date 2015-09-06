@@ -50,7 +50,7 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 	}
 }
 
-%new -(void)bgl_handleGesture:(UIPanGestureRecognizer *)recognizer {
+%new - (void)bgl_handleGesture:(UIPanGestureRecognizer *)recognizer {
 
 	if(!enabled) return;
 
