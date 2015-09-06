@@ -70,7 +70,8 @@ extern NSInteger blurStyle;
 			break;
 	}
 
-	CGFloat top = [[UIApplication sharedApplication].keyWindow convertPoint:_iconView.frame.origin toWindow:nil].y;
+	UIWindow *window = [UIApplication sharedApplication].keyWindow;
+	CGFloat top = [window convertPoint:_iconView.frame.origin toView:nil].y - [window convertPoint:_iconView.superview.frame.origin toView:nil].y + [window convertPoint:_iconView.superview.superview.frame.origin toView:nil].y;
 	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 
 	_blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:style]];
@@ -78,7 +79,7 @@ extern NSInteger blurStyle;
 	[self.view addSubview:_blurView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:top + statusBarHeight],
+		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:top],
 		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0],
 		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]
 	]];
