@@ -21,9 +21,10 @@ extern NSInteger blurStyle;
 	if((self = [super init])) {
 		if(iconView) {
 			_iconView = iconView;
-			if([iconView isKindOfClass:%c(SBApplicationIconView)]) {
+			SBIcon *icon = iconView.icon;
+			if(!icon.isFolderIcon) {
 				_bundleIdentifiers = @[((SBApplicationIcon *)iconView.icon).application.bundleIdentifier];
-			} else if([iconView isKindOfClass:%c(SBFolderIconView)]) {
+			} else {
 				SBFolder *folder = ((SBFolderIconView *)iconView).folder;
 				NSArray *icons = folder.allIcons;
 				NSMutableArray *ids = [NSMutableArray arrayWithCapacity:icons.count];
@@ -34,14 +35,12 @@ extern NSInteger blurStyle;
 						[ids addObject:bundleID]; // Thank goodness for safe nil, right?
 					}
 				}
-				_bundleIdentifiers = ids;
-			} else {
-				_bundleIdentifiers = @[@"com.bflatstudios.badger-lite.error"];
-				HBLogError(@"Badger--: Encountered unknown icon view class %@; serving com.bflatstudios.badger-lite.error instead.", [iconView class]);
+				_bundleIdentifiers = ids.count ? ids : @[@"com.bflatstudios.badger-lite.error"];
 			}
 		} else { // No icon view; default to showing the consolidated view.
 			_bundleIdentifiers = [%c(SBApplicationController) sharedInstance].allBundleIdentifiers;
 		}
+		[_bundleIdentifiers retain];
 	}
 
 	return self;
@@ -121,6 +120,7 @@ extern NSInteger blurStyle;
 }
 
 - (void)dealloc {
+	[_bundleIdentifiers release];
 	[_dataSource release];
 	[super dealloc];
 }
