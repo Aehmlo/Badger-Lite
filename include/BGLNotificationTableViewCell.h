@@ -1,6 +1,8 @@
 #import <BulletinBoard/BBBulletin.h>
 
-@interface BGLNotificationTableViewCell : UITableViewCell
+@interface BGLNotificationTableViewCell : UITableViewCell {
+	BBBulletin *_bulletin;
+}
 
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UILabel *messageLabel;

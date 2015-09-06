@@ -1,5 +1,8 @@
 #import "BGLNotificationTableViewCell.h"
 
+#import <SpringBoard/SBApplication.h>
+#import <SpringBoard/SBApplicationController.h>
+
 extern UIFont *bgl_titleFont(void);
 extern UIFont *bgl_messageFont(void);
 
@@ -42,6 +45,20 @@ extern UIFont *bgl_messageFont(void);
 	}
 
 	return self;
+
+}
+
+- (void)setBulletin:(BBBulletin *)bulletin {
+
+	if(_bulletin) [_bulletin release];
+	_bulletin = [bulletin retain];
+	self.messageLabel.text = bulletin.message;
+	NSString *text = bulletin.title ?: bulletin.subtitle;
+	if(!text) {
+		SBApplication *application = [((SBApplicationController *)[%c(SBApplicationController) sharedInstance]) applicationWithBundleIdentifier:bulletin.section];
+		text = application.displayName;
+	}
+	self.titleLabel.text = text;
 
 }
 
