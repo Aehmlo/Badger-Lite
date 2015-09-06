@@ -1,7 +1,8 @@
 Package: com.bflatstudios.badger-lite
 Name: Badger--
-Depends: mobilesubstrate
-Version: 0.0.1
+Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>=1.3)
+Conflicts: gsc.ipad
+Version: 0.1.0
 Architecture: iphoneos-arm
 Description: A MobileSubstrate tweak!
 Maintainer: Aehmlo Lxaitn
