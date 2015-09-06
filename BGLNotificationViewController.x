@@ -10,11 +10,10 @@
 #import <SpringBoard/SBIcon.h>
 #import <SpringBoard/SBIconView.h>
 
-extern "C" NSString *const kBGLNotificationCellReuseIdentifier;
+extern NSString *const kBGLNotificationCellReuseIdentifier;
+extern NSInteger blurStyle;
 
 @implementation BGLNotificationViewController
-
-extern NSInteger blurStyle;
 
 - (instancetype)initWithIconView:(SBIconView *)iconView {
 
