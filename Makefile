@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = BadgerLite
-BadgerLite_FILES = $(wildcard *.m *.xm)
+BadgerLite_FILES = $(wildcard *.m *.xm *.x)
 BadgerLite_LIBRARIES = cephei
 BadgerLite_CFLAGS += -Iinclude
 
