@@ -78,10 +78,23 @@ extern NSInteger blurStyle;
 	[self.view addSubview:_blurView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:iconTop],
-		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]
+		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]
 	]];
+
+	BOOL invert = iconTop < 200;
+
+	if(invert) {
+		[self.view addConstraints:@[
+			[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0],
+		[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:window.frame.size.height - iconTop - _iconView.bounds.size.height]
+		]];
+	} else {
+		[self.view addConstraints:@[
+			[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0],
+			[NSLayoutConstraint constraintWithItem:_blurView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0 constant:iconTop]
+		]];
+	}
+
 	[_blurView release];
 
 	_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -96,9 +109,9 @@ extern NSInteger blurStyle;
 	[self.view addSubview:_tableView];
 	[self.view addConstraints:@[
 		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-statusBarHeight],
+		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:invert ? 0 : -statusBarHeight],
 		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0],
-		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeTop multiplier:1.0 constant:statusBarHeight]
+		[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_blurView attribute:NSLayoutAttributeTop multiplier:1.0 constant:invert ? 0 : statusBarHeight]
 	]];
 	[_tableView release];
 
