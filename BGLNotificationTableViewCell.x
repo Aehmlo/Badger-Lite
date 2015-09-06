@@ -62,4 +62,13 @@ extern UIFont *bgl_messageFont(void);
 
 }
 
+- (BBBulletin *)bulletin {
+	return _bulletin;
+}
+
+- (void)dealloc {
+	[_bulletin release];
+	[super dealloc];
+}
+
 @end
