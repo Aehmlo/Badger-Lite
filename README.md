@@ -1,6 +1,6 @@
 # Badger--
 
-[![Build Status](https://travis-ci.org/Aehmlo/Badger-Lite.svg)](https://travis-ci.org/Aehmlo/Badger-Lite)
+[![Build Status](https://travis-ci.org/Aehmlo/Badger-Lite.svg)](https://travis-ci.org/Aehmlo/Badger-Lite) [![License](https://img.shields.io/github/license/Aehmlo/Badger-Lite.svg)](https://github.com/Aehmlo/Badger-Lite/tree/master/LICENSE)
 
 [Badger](https://cydia.saurik.com/package/com.bflatstudios.badger7/)'s basic notification-listing feature, working on iOS 8.
 
