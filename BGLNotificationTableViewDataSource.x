@@ -36,10 +36,11 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	HBLogDebug(@"table view frame: %@; status bar frame: %@", NSStringFromCGRect(tableView.frame), NSStringFromCGRect([UIApplication sharedApplication].statusBarFrame));
 	NSMutableParagraphStyle *style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 	style.lineBreakMode = NSLineBreakByWordWrapping;
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	return [bulletin.message boundingRectWithSize:CGSizeMake([UIApplication sharedApplication].statusBarFrame.size.width - 10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
+	return [bulletin.message boundingRectWithSize:CGSizeMake(tableView.bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
 		NSFontAttributeName: bgl_messageFont(),
 		NSParagraphStyleAttributeName: style
 	} context:nil].size.height + 25 + bgl_titleFont().lineHeight;
