@@ -7,6 +7,45 @@ extern UIFont *bgl_titleFont(void);
 extern UIFont *bgl_messageFont(void);
 extern UIFont *bgl_dateFont(void);
 
+static NSString *bgl_dateStringForDate(NSDate *date) {
+
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+
+	if([calendar isDateInToday:date]) { // This notification is from today; give the time
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		formatter.timeStyle = NSDateFormatterShortStyle;
+		formatter.dateStyle = NSDateFormatterNoStyle;
+		NSString *text = [[formatter stringFromDate:date] lowercaseString];
+		[formatter release];
+		return text;
+	} else {
+		// Thanks to http://stackoverflow.com/a/4739650
+		NSDate *fromDate;
+		NSDate *toDate;
+
+		NSCalendar *calendar = [NSCalendar currentCalendar];
+
+		[calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate interval:NULL forDate:date];
+		[calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate interval:NULL forDate:[NSDate date]];
+
+		NSDateComponents *difference = [calendar components:NSCalendarUnitDay fromDate:fromDate toDate:toDate options:0];
+
+		NSInteger days = [difference day];
+
+		if(days == 1) {
+			return @"yesterday";
+		} else if(days <=6) {
+			return [NSString stringWithFormat:@"%ld days ago", (long)days];
+		} else {
+			float weeks = floor(days/7);
+			NSString *s = weeks == 1 ? @"" : @"s";
+			return [NSString stringWithFormat:@"%0.0f week%@ ago", weeks, s];
+		}
+	}
+	return @"";
+
+}
+
 @implementation BGLNotificationTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -74,13 +113,7 @@ extern UIFont *bgl_dateFont(void);
 		text = application.displayName;
 	}
 	self.titleLabel.text = text;
-
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	formatter.timeStyle = NSDateFormatterShortStyle;
-	formatter.dateStyle = NSDateFormatterNoStyle;
-	formatter.doesRelativeDateFormatting = YES;
-	self.dateLabel.text = [[formatter stringFromDate:bulletin.date] lowercaseString];
-	[formatter release];
+	self.dateLabel.text = bgl_dateStringForDate(bulletin.date);
 
 }
 
