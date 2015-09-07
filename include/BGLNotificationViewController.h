@@ -1,5 +1,6 @@
 #import "BGLNotificationTableViewDataSource.h"
 #import <SpringBoard/SBIconView.h>
+#import <SpringBoard/SBIconListView.h>
 
 @interface BGLNotificationViewController : UIViewController {
 	NSArray *_bundleIdentifiers;
@@ -11,6 +12,9 @@
 
 - (instancetype)initWithIconView:(SBIconView *)iconView;
 - (void)hideAndRelease:(BOOL)animated;
+
+@property (nonatomic, retain) SBIconListView *listView;
+@property (nonatomic, readonly) SBIconListView *dockListView;
 
 
 @end

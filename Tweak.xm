@@ -9,6 +9,7 @@
 #import <SpringBoard/SBBulletinViewController.h>
 #import <SpringBoard/SBIconContentView.h>
 #import <SpringBoard/SBIconController.h>
+#import <SpringBoard/SBIconListView.h>
 #import <SpringBoard/SBIconView.h>
 #import "SBIconView+BadgerLite.h"
 
@@ -105,12 +106,17 @@ extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconV
 		if(alpha > 1) alpha = 1; // goto fail;
 
 		viewController.view.alpha = alpha;
+		[viewController.listView setAlphaForAllIcons:(1 - (0.8 * alpha))]; // Humans are not as good of parsers as the compiler is.
+		[viewController.dockListView setAlphaForAllIcons:(1 - (0.8 * alpha))];
+		self.alpha = 1;
 
 	} else if(recognizer.state == UIGestureRecognizerStateEnded) {
 		if(viewController.view.alpha <= 0.7) { // Use the alpha so we don't redo the (expensive) calculations we've already done.
 			[viewController hideAndRelease:YES];
 		} else { // Here to stay
 			viewController.view.alpha = 1;
+			[viewController.listView setAlphaForAllIcons:0.2];
+			self.alpha = 1;
 		}
 	}
 

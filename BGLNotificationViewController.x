@@ -8,7 +8,9 @@
 #import <SpringBoard/SBFolder.h>
 #import <SpringBoard/SBFolderIconView.h>
 #import <SpringBoard/SBIcon.h>
+#import <SpringBoard/SBIconController.h>
 #import <SpringBoard/SBIconView.h>
+#import <SpringBoard/SBRootFolder.h>
 
 extern NSString *const kBGLNotificationCellReuseIdentifier;
 extern NSInteger blurStyle;
@@ -37,9 +39,15 @@ extern NSInteger blurStyle;
 				_bundleIdentifiers = ids.count ? ids : @[@"com.bflatstudios.badger-lite.error"];
 			}
 		} else { // No icon view; default to showing the consolidated view.
-			_bundleIdentifiers = [%c(SBApplicationController) sharedInstance].allBundleIdentifiers;
+			_bundleIdentifiers = ((SBApplicationController *)[%c(SBApplicationController) sharedInstance]).allBundleIdentifiers;
 		}
 		[_bundleIdentifiers retain];
+
+		SBIconController *controller = [%c(SBIconController) sharedInstance];
+		NSIndexPath *indexPath = [controller.rootFolder indexPathForIcon:iconView.icon];
+		SBIconListView *listView = nil;
+		[controller getListView:&listView folder:nil relativePath:nil forIndexPath:indexPath createIfNecessary:YES];
+		self.listView = listView;
 	}
 
 	return self;
@@ -117,9 +125,15 @@ extern NSInteger blurStyle;
 
 }
 
+- (SBIconListView *)dockListView {
+	return ((SBIconController *)[%c(SBIconController) sharedInstance]).dockListView;
+}
+
 - (void)hideAndRelease:(BOOL)animated {
 	[UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
 		self.view.alpha = 0;
+		[self.listView setAlphaForAllIcons:1];
+		[self.dockListView setAlphaForAllIcons:1];
 	} completion:^(BOOL complete) {
 		if(complete) {
 			[self.view removeFromSuperview];
