@@ -5,6 +5,7 @@
 
 extern UIFont *bgl_titleFont(void);
 extern UIFont *bgl_messageFont(void);
+extern UIFont *bgl_dateFont(void);
 
 @implementation BGLNotificationTableViewCell
 
@@ -28,7 +29,7 @@ extern UIFont *bgl_messageFont(void);
 
 		self.dateLabel = [[UILabel alloc] init];
 		self.dateLabel.textColor = [UIColor whiteColor];
-		self.dateLabel.font = bgl_messageFont();// bgl_dateFont();
+		self.dateLabel.font = bgl_dateFont();
 		self.dateLabel.numberOfLines = 1;
 		self.dateLabel.textAlignment = NSTextAlignmentRight;
 		self.dateLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -77,7 +78,7 @@ extern UIFont *bgl_messageFont(void);
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	formatter.timeStyle = NSDateFormatterShortStyle;
 	formatter.dateStyle = NSDateFormatterNoStyle;
-	self.dateLabel.text = [formatter stringFromDate:bulletin.date];
+	self.dateLabel.text = [[formatter stringFromDate:bulletin.date] lowercaseString];
 	[formatter release];
 
 }
