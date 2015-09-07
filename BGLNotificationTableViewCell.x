@@ -78,6 +78,7 @@ extern UIFont *bgl_dateFont(void);
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	formatter.timeStyle = NSDateFormatterShortStyle;
 	formatter.dateStyle = NSDateFormatterNoStyle;
+	formatter.doesRelativeDateFormatting = YES;
 	self.dateLabel.text = [[formatter stringFromDate:bulletin.date] lowercaseString];
 	[formatter release];
 
