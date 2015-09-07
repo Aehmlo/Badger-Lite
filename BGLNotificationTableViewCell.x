@@ -26,6 +26,21 @@ extern UIFont *bgl_messageFont(void);
 		]];
 		[self.messageLabel release];
 
+		self.dateLabel = [[UILabel alloc] init];
+		self.dateLabel.textColor = [UIColor whiteColor];
+		self.dateLabel.font = bgl_messageFont();// bgl_dateFont();
+		self.dateLabel.numberOfLines = 1;
+		self.dateLabel.textAlignment = NSTextAlignmentRight;
+		self.dateLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+		self.dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
+		[self addSubview:self.dateLabel];
+		[self addConstraints:@[
+			[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:10],
+			[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-10],
+			[NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:0.3 constant:-10]
+		]];
+
+
 		self.titleLabel = [[UILabel alloc] init];
 		self.titleLabel.textColor = [UIColor whiteColor];
 		self.titleLabel.font = bgl_titleFont();
@@ -34,11 +49,10 @@ extern UIFont *bgl_messageFont(void);
 		self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:self.titleLabel];
 		[self addConstraints:@[
-			[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:10],
+			[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.dateLabel attribute:NSLayoutAttributeTop multiplier:1 constant:0],
 			[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:10],
-			[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:-20]
+			[NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:0.7 constant:-20]
 		]];
-		[self.titleLabel release];
 
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -60,6 +74,12 @@ extern UIFont *bgl_messageFont(void);
 	}
 	self.titleLabel.text = text;
 
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.timeStyle = NSDateFormatterShortStyle;
+	formatter.dateStyle = NSDateFormatterNoStyle;
+	self.dateLabel.text = [formatter stringFromDate:bulletin.date];
+	[formatter release];
+
 }
 
 - (BBBulletin *)bulletin {
@@ -67,6 +87,7 @@ extern UIFont *bgl_messageFont(void);
 }
 
 - (void)dealloc {
+	[self.titleLabel release];
 	[_bulletin release];
 	[super dealloc];
 }
