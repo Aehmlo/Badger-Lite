@@ -37,7 +37,7 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	BBBulletin *bulletin = _cachedBulletins[indexPath.row];
-	return CGRectIntegral([bulletin.message boundingRectWithSize:CGSizeMake(tableView.bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{
+	return CGRectIntegral([bulletin.message boundingRectWithSize:CGSizeMake(tableView.bounds.size.width - 20, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:@{
 		NSFontAttributeName: bgl_messageFont(),
 		NSParagraphStyleAttributeName: [NSParagraphStyle defaultParagraphStyle]
 	} context:nil]).size.height + 25 + bgl_titleFont().lineHeight;
