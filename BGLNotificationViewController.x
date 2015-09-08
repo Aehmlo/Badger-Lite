@@ -43,7 +43,7 @@ extern NSInteger blurStyle;
 		}
 		[_bundleIdentifiers retain];
 
-		SBIconController *controller = [%c(SBIconController) sharedInstance];
+		SBIconController *controller = (SBIconController *)[%c(SBIconController) sharedInstance];
 		NSIndexPath *indexPath = [controller.rootFolder indexPathForIcon:iconView.icon];
 		SBIconListView *listView = nil;
 		[controller getListView:&listView folder:nil relativePath:nil forIndexPath:indexPath createIfNecessary:YES];
