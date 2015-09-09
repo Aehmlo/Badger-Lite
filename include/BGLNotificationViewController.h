@@ -16,5 +16,4 @@
 @property (nonatomic, retain) SBIconListView *listView;
 @property (nonatomic, readonly) SBIconListView *dockListView;
 
-
 @end
