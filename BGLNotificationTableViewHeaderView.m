@@ -27,13 +27,13 @@ extern UIFont *bgl_headerFont(void);
 
 	switch(unreadCount) {
 		case 0:
-			_label.text = @"No Unread Notifications";
+			_label.text = @"No unread notifications";
 			break;
 		case 1:
-			_label.text = @"1 Unread Notification";
+			_label.text = @"1 unread notification";
 			break;
 		default:
-			_label.text = [NSString stringWithFormat:@"%lu Unread Notifications", (unsigned long)unreadCount];
+			_label.text = [NSString stringWithFormat:@"%lu unread notifications", (unsigned long)unreadCount];
 			break;
 	}
 
