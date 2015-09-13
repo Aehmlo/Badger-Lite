@@ -1,6 +1,7 @@
 #import "BGLNotificationTableViewHeaderView.h"
 
 extern UIFont *bgl_headerFont(void);
+extern BOOL showCount;
 
 @implementation BGLNotificationTableViewHeaderView
 
@@ -25,16 +26,21 @@ extern UIFont *bgl_headerFont(void);
 
 - (void)setUnreadCount:(NSUInteger)unreadCount {
 
-	switch(unreadCount) {
-		case 0:
-			_label.text = @"No unread notifications";
-			break;
-		case 1:
-			_label.text = @"1 unread notification";
-			break;
-		default:
-			_label.text = [NSString stringWithFormat:@"%lu unread notifications", (unsigned long)unreadCount];
-			break;
+
+	if(showCount) {
+		switch(unreadCount) {
+			case 0:
+				_label.text = @"No unread notifications";
+				break;
+			case 1:
+				_label.text = @"1 unread notification";
+				break;
+			default:
+				_label.text = [NSString stringWithFormat:@"%lu unread notifications", (unsigned long)unreadCount];
+				break;
+		}
+	} else {
+		_label.text = (unreadCount == 0) ? @"No unread notifications" : @"Unread notifications";
 	}
 
 	_unreadCount = unreadCount;

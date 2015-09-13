@@ -28,6 +28,8 @@ static BOOL enabled;
 NSInteger blurStyle;
 static BGLActivationMethod activationMethod = BGLActivationMethodSwipeUp;
 static BGLNotificationViewController *viewController;
+BOOL showCount;
+BOOL showHeader;
 
 extern "C" UIPanGestureRecognizer *createPanGestureRecognizerForIconView(SBIconView *iconView);
 
@@ -173,6 +175,8 @@ SBBulletinViewController *bulletinViewController;
 	HBPreferences *preferences = [HBPreferences preferencesForIdentifier:@"com.bflatstudios.badger-lite"];
 
 	[preferences registerBool:&enabled default:YES forKey:@"Enable"];
+	[preferences registerBool:&showCount default:YES forKey:@"ShowCount"];
+	[preferences registerBool:&showHeader default:YES forKey:@"ShowHeader"];
 	[preferences registerInteger:&blurStyle default:1 forKey:@"BlurStyle"];
 
 	void (^changeBlock)(NSString *, id) = ^(NSString *name, id value) { // <3 fuckingblocksyntax.com
