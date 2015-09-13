@@ -54,6 +54,34 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>ShowHeader</string>
+			<key>label</key>
+			<string>Show Header</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.bflatstudios.badger-lite</string>
+			<key>key</key>
+			<string>ShowCount</string>
+			<key>label</key>
+			<string>Show Unread Count</string>
+			<key>PostNotification</key>
+			<string>com.bflatstudios.badger-lite/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Activation Methods</string>

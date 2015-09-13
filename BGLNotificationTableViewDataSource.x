@@ -63,6 +63,9 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	if(!showHeader) {
+		return nil;
+	}
 	BGLNotificationTableViewHeaderView *headerView = [[BGLNotificationTableViewHeaderView alloc] init];
 	headerView.unreadCount = [_cachedBulletins count];
 	return [headerView autorelease];
