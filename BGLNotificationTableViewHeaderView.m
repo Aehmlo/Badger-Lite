@@ -1,12 +1,14 @@
 #import "BGLNotificationTableViewHeaderView.h"
 
+extern UIFont *bgl_headerFont(void);
+
 @implementation BGLNotificationTableViewHeaderView
 
 - (instancetype)init {
 	if((self = [super init])) {
 		_label = [[UILabel alloc] init];
 		_label.numberOfLines = 1;
-		_label.font = [UIFont systemFontOfSize:20];
+		_label.font = bgl_headerFont();
 		_label.textColor = [UIColor whiteColor];
 		_label.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:_label];

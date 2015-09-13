@@ -11,3 +11,7 @@ UIFont *bgl_titleFont(void) {
 UIFont *bgl_dateFont(void) {
 	return [UIFont fontWithName:@"HelveticaNeue-Thin" size:18];
 }
+
+UIFont *bgl_headerFont(void) {
+	return [UIFont fontWithName:@"HelveticaNeue-Thin" size:24];
+}

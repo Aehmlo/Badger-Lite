@@ -11,6 +11,7 @@
 
 extern UIFont *bgl_titleFont(void);
 extern UIFont *bgl_messageFont(void);
+extern UIFont *bgl_headerFont(void);
 extern NSUInteger numberOfNotificationsForBundleIdentifiers(NSArray *bundleIDs);
 extern NSArray *notificationsForBundleIdentifiers(NSArray *bundleIDs);
 extern NSString *kBGLNotificationCellReuseIdentifier;
@@ -67,7 +68,7 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return [UIFont systemFontOfSize:20].lineHeight + 10;
+	return bgl_headerFont().lineHeight + 10;
 }
 
 - (void)dealloc {
