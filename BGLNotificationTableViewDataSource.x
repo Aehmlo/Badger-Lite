@@ -1,5 +1,6 @@
 #import "BGLNotificationTableViewDataSource.h"
 #import "BGLNotificationTableViewCell.h"
+#import "BGLNotificationTableViewHeaderView.h"
 
 #import <CoreFoundation/CoreFoundation.h>
 
@@ -57,6 +58,16 @@ extern NSString *kBGLNotificationCellReuseIdentifier;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return [_cachedBulletins count];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	BGLNotificationTableViewHeaderView *headerView = [[BGLNotificationTableViewHeaderView alloc] init];
+	headerView.unreadCount = [_cachedBulletins count];
+	return [headerView autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return [UIFont systemFontOfSize:20].lineHeight + 10;
 }
 
 - (void)dealloc {

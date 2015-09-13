@@ -105,8 +105,9 @@ extern NSInteger blurStyle;
 
 	[_blurView release];
 
-	_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 	_tableView.backgroundColor = [UIColor clearColor];
+	_tableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CGFLOAT_MIN)] autorelease]; // Sigh
 	_tableView.tableFooterView = [[[UIView alloc] init] autorelease];
 	_tableView.translatesAutoresizingMaskIntoConstraints = NO;
 	[_tableView registerClass:[BGLNotificationTableViewCell class] forCellReuseIdentifier:kBGLNotificationCellReuseIdentifier];
