@@ -126,7 +126,7 @@ extern NSInteger blurStyle;
 
 }
 
-- (SBIconListView *)dockListView {
+- (SBDockIconListView *)dockListView {
 	return ((SBIconController *)[%c(SBIconController) sharedInstance]).dockListView;
 }
 
